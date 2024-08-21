@@ -36,6 +36,22 @@ class Student(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+class Teacher(models.Model):
+    admin = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    #password = models.CharField(max_length=20, null=True)
+    number = models.IntegerField(null=True)
+    address = models.TextField()
+    gender = models.CharField(max_length=100)
+    course_id = models.ForeignKey(Courses,on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.first_name
+
    
 
     

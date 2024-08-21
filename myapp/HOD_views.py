@@ -160,10 +160,10 @@ def View_Course(request):
     return render(request, "HOD/view_course.html", context)
 
 def Update_Course(request, id):
+    #course = get_list_or_404(Courses, id=id)
     course = Courses.objects.get(id=id)
-    # course = get_list_or_404(Courses, id=id)
     if request.method=="POST":
-        course.name = request.POST.get("course_name")
+        course.course_name = request.POST.get("course_name")
         course.save()
         messages.success(request, "Course Update Successfully")
         return redirect("view_course")
@@ -178,3 +178,56 @@ def Delete_Course(request,id):
     course.delete()
     messages.success(request, "Course Remove Successfullly")
     return redirect("view_course")
+
+def Add_Teacher(request):
+    if request.method=="POST":
+        profile_pic = request.FILES.get("profile_pic")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        username = request.POST.get("username")
+        number = request.POST.get("number")
+        gender = request.POST.get("gender")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        address = request.POST.get("address")
+
+        if CustomUser.objects.filter(email=email).exists():
+            messages.error(request, "Email is already exits plase try again")
+            return redirect('add_student')
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, "Username is already exits plase try again")
+            return redirect('add_student')
+        else:
+            user = CustomUser(
+                profile_pic = profile_pic,
+                username = username,
+                password = password,
+                email = email,
+                user_type = '2',
+            )
+            user.set_password(password)
+            user.save()
+
+            teacher = Teacher(
+                admin = user,
+                first_name = first_name,
+                last_name = last_name,
+                number = number,
+                address = address,
+                gender = gender,
+
+            )
+            #teacher.set_password(password)
+            teacher.save()
+            messages.success(request, "Congratulations!" + teacher.first_name + " " + teacher.last_name + " " + "successfully added")
+            return redirect("add_teacher")
+
+    return render(request, "HOD/add_teacher.html")
+
+def View_Teacher(request):
+    teacher = Teacher.objects.all()
+
+    context = {
+        'teacher' : teacher,
+    }
+    return render(request, "HOD/view_teacher.html", context)

@@ -26,6 +26,9 @@ urlpatterns = [
     path('HOD/Student/Update/', HOD_views.Update_Student, name='update_student'),
     path('HOD/Student/Delete/<str:admin>/', HOD_views.Delete_Student, name='delete_student'),
 
+    path('HOD/Teacher/Add/', HOD_views.Add_Teacher, name='add_teacher'),
+    path('HOD/Teacher/View/', HOD_views.View_Teacher, name='view_teacher'),
+
     path('HOD/Course/Add/', HOD_views.Add_Course, name='add_course'),
     path('HOD/Course/View/', HOD_views.View_Course, name='view_course'),
     path('HOD/Course/Update/<int:id>/', HOD_views.Update_Course, name='update_course'),
