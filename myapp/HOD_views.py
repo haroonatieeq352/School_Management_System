@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from myapp.models import *
@@ -151,3 +151,30 @@ def Add_Course(request):
         return redirect("add_course")
 
     return render(request, "HOD/add_course.html")
+
+def View_Course(request):
+    course = Courses.objects.all()
+    context = {
+        "course" : course
+    }
+    return render(request, "HOD/view_course.html", context)
+
+def Update_Course(request, id):
+    course = Courses.objects.get(id=id)
+    # course = get_list_or_404(Courses, id=id)
+    if request.method=="POST":
+        course.name = request.POST.get("course_name")
+        course.save()
+        messages.success(request, "Course Update Successfully")
+        return redirect("view_course")
+    
+    context = {
+        "course" : course
+    }
+    return render(request, "HOD/update_course.html", context)
+
+def Delete_Course(request,id):
+    course = Courses.objects.get(id=id)
+    course.delete()
+    messages.success(request, "Course Remove Successfullly")
+    return redirect("view_course")
