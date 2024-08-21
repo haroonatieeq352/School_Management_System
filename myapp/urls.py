@@ -26,4 +26,6 @@ urlpatterns = [
     path('HOD/Student/Update/', HOD_views.Update_Student, name='update_student'),
     path('HOD/Student/Delete/<str:admin>/', HOD_views.Delete_Student, name='delete_student'),
 
+    path('HOD/Course/Add/', HOD_views.Add_Course, name='add_course'),
+
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
