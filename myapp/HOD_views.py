@@ -39,7 +39,7 @@ def Add_Student(request):
                 user_type = '3',
                 password = password,
             )
-            user.set_password(password)
+            user.set_password(password) 
             user.save()
 
             course = Courses.objects.get(id=course_id)

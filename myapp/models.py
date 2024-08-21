@@ -11,11 +11,12 @@ class CustomUser(AbstractUser):
 
     user_type = models.CharField(choices=USER, max_length=100, default=1)
     profile_pic = models.ImageField(upload_to="media/profile_pic")
+    password = models.CharField(max_length=20, null=True)
 
 
 class Courses(models.Model):
     course_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=20, null=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 

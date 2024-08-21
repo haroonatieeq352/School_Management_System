@@ -43,9 +43,9 @@ def DoLogout(request):
 
 @login_required(login_url='/')
 def Profile(request):
-    user1 = CustomUser.objects.get(id = request.user.id)
+    user = CustomUser.objects.get(id = request.user.id)
     context = {
-        "user" : user1,
+        "user" : user,
     }
     return render(request, 'profile.html', context)
 
@@ -53,8 +53,8 @@ def Profile(request):
 def Profile_Update(request):
     if request.method == "POST":
         profile_pic = request.FILES.get('profile_pic')
-        f_name = request.POST.get('first_name')
-        l_name = request.POST.get('last_name')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         # email = request.POST.get('email')
         # u_name = request.POST.get('username')
         password = request.POST.get('password')
@@ -66,8 +66,8 @@ def Profile_Update(request):
             if profile_pic != None and profile_pic != "":  
                 customuser.profile_pic = profile_pic
             #customuser.profile_pic = profile_pic
-            customuser.first_name = f_name
-            customuser.last_name = l_name
+            customuser.first_name = first_name
+            customuser.last_name = last_name
             # customuser.email = email
             # customuser.username = u_name    
             if password != None and password != "":  
