@@ -217,10 +217,10 @@ def Add_Teacher(request):
                 gender = gender,
 
             )
-            #teacher.set_password(password)
+            
             teacher.save()
             messages.success(request, "Congratulations!" + teacher.first_name + " " + teacher.last_name + " " + "successfully added")
-            return redirect("add_teacher")
+            return redirect("view_teacher")
 
     return render(request, "HOD/add_teacher.html")
 
