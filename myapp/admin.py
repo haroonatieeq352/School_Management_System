@@ -12,7 +12,7 @@ class UserModel(UserAdmin):
 # class CourseAdmin(UserAdmin):
 #      list_display = ["course_name", "username", "email", "number", "password", "created_at", "update_at"]
 class StudentAdmin(admin.ModelAdmin):
-     list_display = ["first_name", "last_name","course_id", "number", "password", "created_at"]
+     list_display = ["first_name", "last_name","course_id", "number", "created_at"]
 admin.site.register(Student, StudentAdmin)
 
 class CoursesAdmin(admin.ModelAdmin):

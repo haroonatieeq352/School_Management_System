@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from myapp.models import *
 from django.contrib import messages
 
@@ -36,6 +37,7 @@ def Add_Student(request):
                 username = username,
                 email = email,
                 user_type = '3',
+                password = password,
             )
             user.set_password(password)
             user.save()
@@ -47,7 +49,6 @@ def Add_Student(request):
                 first_name = first_name,
                 last_name = last_name,
                 number = number,
-                password = password,
                 address = address,
                 course_id = course,
                 gender = gender,
@@ -100,7 +101,10 @@ def Update_Student(request):
         user = CustomUser.objects.get(id = student_id)
         user.username = username
         user.email = email
- 
+
+        if password != None and password != "":  
+            user.set_password(password)
+
         if profile_pic != None and profile_pic != "":  
             user.profile_pic = profile_pic
         user.save()
@@ -114,8 +118,7 @@ def Update_Student(request):
         # if course_id == None and course_id != None and course_id == "" and course_id != "":
         #     student.gender = gender
 
-        if password != None and password != "":  
-            student.set_password(password)
+        
 
         #if course != None and course != "" or course == None and course == "":
         

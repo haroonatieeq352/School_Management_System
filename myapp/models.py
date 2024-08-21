@@ -15,6 +15,7 @@ class CustomUser(AbstractUser):
 
 class Courses(models.Model):
     course_name = models.CharField(max_length=100)
+    password = models.CharField(max_length=20, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -26,7 +27,6 @@ class Student(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     number = models.IntegerField(null=True)
-    password = models.CharField(max_length=20, null=True)
     address = models.TextField()
     gender = models.CharField(max_length=100)
     course_id = models.ForeignKey(Courses,on_delete=models.DO_NOTHING)
