@@ -20,5 +20,5 @@ class CoursesAdmin(admin.ModelAdmin):
 admin.site.register(Courses, CoursesAdmin)
 
 class TeacherAdmin(admin.ModelAdmin):
-     list_display = ["first_name", "last_name","course_id", "number", "created_at"]
+     list_display = ["first_name", "last_name", "gender", "number", "created_at"]
 admin.site.register(Teacher, TeacherAdmin)

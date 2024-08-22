@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     USER = (
         ('1', "HOD"),
-        ('2', "Staff"),
+        ('2', "Teacher"),
         ('3', "Student")
     )
 
@@ -42,10 +42,10 @@ class Teacher(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     #password = models.CharField(max_length=20, null=True)
-    number = models.IntegerField(null=True)
+    number = models.IntegerField()
     address = models.TextField()
     gender = models.CharField(max_length=100)
-    course_id = models.ForeignKey(Courses,on_delete=models.DO_NOTHING)
+    #course_id = models.ForeignKey(Courses,on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 

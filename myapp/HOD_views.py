@@ -56,7 +56,7 @@ def Add_Student(request):
             )
             student.save()
             messages.success(request, student.first_name + " " + student.last_name + " " + "successfully added")
-            return redirect("add_student")
+            return redirect("view_student")
 
 
     context = {
@@ -193,10 +193,10 @@ def Add_Teacher(request):
 
         if CustomUser.objects.filter(email=email).exists():
             messages.error(request, "Email is already exits plase try again")
-            return redirect('add_student')
+            return redirect('add_teacher')
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, "Username is already exits plase try again")
-            return redirect('add_student')
+            return redirect('add_teacher')
         else:
             user = CustomUser(
                 profile_pic = profile_pic,
@@ -217,9 +217,8 @@ def Add_Teacher(request):
                 gender = gender,
 
             )
-            
             teacher.save()
-            messages.success(request, "Congratulations!" + teacher.first_name + " " + teacher.last_name + " " + "successfully added")
+            messages.success(request, teacher.first_name + " " + teacher.last_name + " " + "successfully added")
             return redirect("view_teacher")
 
     return render(request, "HOD/add_teacher.html")
@@ -231,3 +230,51 @@ def View_Teacher(request):
         'teacher' : teacher,
     }
     return render(request, "HOD/view_teacher.html", context)
+
+def Update_Teacher(request, id):
+    teacher = Teacher.objects.get(admin=id)
+    if request.method=="POST":
+       # student_id = request.POST.get("student_id")
+        profile_pic = request.FILES.get("profile_pic")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        username = request.POST.get("username")
+        number = request.POST.get("number")
+        gender = request.POST.get("gender")
+        #course_id = request.POST.get("course_id")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        address = request.POST.get("address")
+        #print(gender, course_id)
+
+        user = CustomUser.objects.get(id=id)
+        user.username = username
+        user.email = email
+
+        if password != None and password != "":  
+            user.set_password(password)
+        if profile_pic != None and profile_pic != "":  
+            user.profile_pic = profile_pic
+        user.save()
+
+        teacher = Teacher.objects.get(admin=id)
+        teacher.first_name = first_name
+        teacher.last_name = last_name
+        teacher.number = number
+        teacher.address = address
+        teacher.gender = gender
+
+        teacher.save()
+        messages.success(request, "Congratulations! Teacher Update Successfully")
+        return redirect("view_teacher")
+    
+    context = {
+        "teacher" : teacher
+    }
+    return render(request, "HOD/update_teacher.html", context)
+
+def Delete_Teacher(request, id):
+    teacher = Teacher.objects.get(admin=id)
+    teacher.delete()
+    messages.success(request, "Teacher Delete Successfully")
+    return redirect("view_teacher")

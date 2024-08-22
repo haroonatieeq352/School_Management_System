@@ -28,6 +28,8 @@ urlpatterns = [
 
     path('HOD/Teacher/Add/', HOD_views.Add_Teacher, name='add_teacher'),
     path('HOD/Teacher/View/', HOD_views.View_Teacher, name='view_teacher'),
+    path('HOD/Teacher/Update/<int:id>/', HOD_views.Update_Teacher, name='update_teacher'),
+    path('HOD/Teacher/Delete/<int:id>/', HOD_views.Delete_Teacher, name='delete_teacher'),
 
     path('HOD/Course/Add/', HOD_views.Add_Course, name='add_course'),
     path('HOD/Course/View/', HOD_views.View_Course, name='view_course'),
