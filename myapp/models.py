@@ -51,6 +51,16 @@ class Teacher(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+class Subject(models.Model):
+    subject_name = models.CharField(max_length=100)
+    course = models.ForeignKey(Courses,on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
    
 

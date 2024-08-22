@@ -278,3 +278,31 @@ def Delete_Teacher(request, id):
     teacher.delete()
     messages.success(request, "Teacher Delete Successfully")
     return redirect("view_teacher")
+
+def Add_Subject(request):
+    course = Courses.objects.all()
+    teacher = Teacher.objects.all()
+
+    if request.method=="POST":
+        subject_name = request.POST.get("subject_name")
+        course_id = request.POST.get("course_id")
+        teacher_id = request.POST.get("teacher_id")
+        #print(subject_name,course_id,teacher_id)
+
+        course = Courses.objects.get(id=course_id)
+        teacher = Teacher.objects.get(id=teacher_id)
+        #print(course, teacher)
+        subject = Subject(
+            subject_name=subject_name,
+            course=course,
+            teacher=teacher,
+        )
+        subject.save()
+        messages.success(request, "Subject Add Successfully")
+        return redirect("add_subject")
+
+    context = {
+        "course" : course,
+        "teacher" : teacher,
+    }
+    return render(request, "HOD/add_subject.html", context)
