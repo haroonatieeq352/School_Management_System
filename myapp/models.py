@@ -53,6 +53,7 @@ class Teacher(models.Model):
         return self.first_name
     
 class Subject(models.Model):
+    #admin = models.OneToOneField(CustomUser,on_delete=models.CASCADE)
     subject_name = models.CharField(max_length=100)
     course = models.ForeignKey(Courses,on_delete=models.CASCADE)
     teacher = models.ForeignKey(Teacher,on_delete=models.CASCADE)
@@ -60,7 +61,7 @@ class Subject(models.Model):
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.subject_name
 
    
 

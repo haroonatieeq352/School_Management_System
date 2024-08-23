@@ -306,3 +306,43 @@ def Add_Subject(request):
         "teacher" : teacher,
     }
     return render(request, "HOD/add_subject.html", context)
+
+def View_Subject(request):
+    subject = Subject.objects.all()
+
+    context = {
+        "subject" : subject
+    }
+    return render(request, "HOD/view_subject.html", context)
+
+def Update_Subject(request, id):
+    course = Courses.objects.all()
+    teacher = Teacher.objects.all()
+    subject = Subject.objects.get(id=id)
+    if request.method=="POST":
+       # student_id = request.POST.get("student_id")
+        subject_name = request.POST.get("subject_name")
+        course = request.POST.get("course")
+        teacher = request.POST.get("teacher")
+        #print(subject_name, course, teacher)
+
+        subject.subject_name = subject_name
+        subject.course = course
+        subject.teacher = teacher
+        #print(subject_name, course, teacher)
+        subject.save()
+        messages.success(request, "Congratulations! Subject Update Successfully")
+        return redirect("view_subject")
+    
+    context = {
+        "subject" : subject,
+        "course" : course,
+        "teacher" : teacher,
+    }
+    return render(request, "HOD/update_subject.html", context)
+
+def Delete_Subject(request, id):
+    subject = Subject.objects.get(id=id)
+    subject.delete()
+    messages.success(request, "Subject Delete Successfully")
+    return redirect("view_subject")

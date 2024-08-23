@@ -37,5 +37,8 @@ urlpatterns = [
     path('HOD/Course/Delete/<int:id>/', HOD_views.Delete_Course, name='delete_course'),
 
     path('HOD/Subject/Add/', HOD_views.Add_Subject, name='add_subject'),
+    path('HOD/Subject/View/', HOD_views.View_Subject, name='view_subject'),
+    path('HOD/Subject/Update/<int:id>/', HOD_views.Update_Subject, name='update_subject'),
+    path('HOD/Subject/Delete/<int:id>/', HOD_views.Delete_Subject, name='delete_subject'),
 
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
