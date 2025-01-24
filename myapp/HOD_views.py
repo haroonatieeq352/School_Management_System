@@ -299,7 +299,7 @@ def Add_Subject(request):
         )
         subject.save()
         messages.success(request, "Subject Add Successfully")
-        return redirect("add_subject")
+        return redirect("view_subject")
 
     context = {
         "course" : course,
@@ -316,8 +316,9 @@ def View_Subject(request):
     return render(request, "HOD/view_subject.html", context)
 
 def Update_Subject(request, id):
-    course = Courses.objects.all()
-    teacher = Teacher.objects.all()
+    course = Courses.objects.create()
+    teacher = Teacher.objects.create()
+    
     subject = Subject.objects.get(id=id)
     if request.method=="POST":
        # student_id = request.POST.get("student_id")
@@ -331,6 +332,7 @@ def Update_Subject(request, id):
         subject.teacher = teacher
         #print(subject_name, course, teacher)
         subject.save()
+        
         messages.success(request, "Congratulations! Subject Update Successfully")
         return redirect("view_subject")
     
