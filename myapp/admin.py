@@ -6,11 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 @admin.register(CustomUser)
 class UserModel(UserAdmin):
      list_display = ["username", "email", "user_type", "profile_pic"]
-#admin.site.register(CustomUser)
 
-#@admin.register(Course)
-# class CourseAdmin(UserAdmin):
-#      list_display = ["course_name", "username", "email", "number", "password", "created_at", "update_at"]
 class StudentAdmin(admin.ModelAdmin):
      list_display = ["first_name", "last_name","course_id", "number", "created_at"]
 admin.site.register(Student, StudentAdmin)
