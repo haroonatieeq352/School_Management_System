@@ -1,0 +1,137 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from myapp.models import *
+from django.contrib import messages
+
+@login_required(login_url='/')
+def Home(request):
+    return render(request, "HOD/home.html")
+
+@login_required(login_url='/')
+def Add_Student(request):
+    course = Student.objects.all()
+    courses = Courses.objects.all()
+
+    if request.method=="POST":
+        profile_pic = request.FILES.get("profile_pic")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        username = request.POST.get("username")
+        number = request.POST.get("number")
+        gender = request.POST.get("gender")
+        course_id = request.POST.get("course_id")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        address = request.POST.get("address")
+
+        if CustomUser.objects.filter(email=email).exists():
+            messages.error(request, "Email is already exits plase try again")
+            return redirect('add_student')
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, "Username is already exits plase try again")
+            return redirect('add_student')
+        else:
+            user = CustomUser(
+                profile_pic = profile_pic,
+                username = username,
+                email = email,
+                user_type = '3',
+            )
+            user.set_password(password)
+            user.save()
+
+            course = Courses.objects.get(id=course_id)
+
+            student = Student(
+                admin = user,
+                first_name = first_name,
+                last_name = last_name,
+                number = number,
+                password = password,
+                address = address,
+                course_id = course,
+                gender = gender,
+
+            )
+            student.save()
+            messages.success(request, student.first_name + " " + student.last_name + " " + "successfully added")
+            return redirect("add_student")
+
+
+    context = {
+        "cources" : courses,
+        "course" : course,
+    }
+    return render(request, "HOD/add_student.html", context)
+
+def View_Student(request):
+    student = Student.objects.all()
+
+    context = {
+        'student' : student,
+    }
+    return render(request, "HOD/view_student.html", context)
+
+def Edit_Student(request, id):
+    student = Student.objects.filter(id = id)
+    courses = Courses.objects.all()
+
+    context = {
+        "student" : student,
+        "courses" : courses,
+    }
+    return render (request, "HOD/edit_student.html", context)
+
+def Update_Student(request):
+    if request.method=="POST":
+        student_id = request.POST.get("student_id")
+        profile_pic = request.FILES.get("profile_pic")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        username = request.POST.get("username")
+        number = request.POST.get("number")
+        gender = request.POST.get("gender")
+        course_id = request.POST.get("course_id")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        address = request.POST.get("address")
+        #print(gender, course_id)
+
+        user = CustomUser.objects.get(id = student_id)
+        user.username = username
+        user.email = email
+ 
+        if profile_pic != None and profile_pic != "":  
+            user.profile_pic = profile_pic
+        user.save()
+
+        student = Student.objects.get(admin = student_id)
+        student.first_name = first_name
+        student.last_name = last_name
+        student.number = number
+        student.address = address
+        student.gender = gender
+        # if course_id == None and course_id != None and course_id == "" and course_id != "":
+        #     student.gender = gender
+
+        if password != None and password != "":  
+            student.set_password(password)
+
+        #if course != None and course != "" or course == None and course == "":
+        
+        course = Courses.objects.get(id = course_id)
+        student.course_id = course
+            
+        # else:
+        #     messages.error(request, "Please select a valid course.")
+        student.save()
+        messages.success(request, "Congratulations! Student Update Successfully")
+        return redirect("view_student")
+    
+    return render (request, "HOD/edit_student.html")
+
+def Delete_Student(request,admin):
+    student = CustomUser.objects.get(id=admin)
+    student.delete()
+    messages.success(request, "Student Delete Successfullly")
+    return redirect("view_student")

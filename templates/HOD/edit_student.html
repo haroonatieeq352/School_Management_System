@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} 
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" action="{% url 'update_student' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-12">
+                        <h5 class="form-title" text="center">
+                                <b><span>Edit Student</span></b>
+                        </h5>
+                    </div>
+                    
+                   
+
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Profile Pic:</label>
+                            <input type="file" accept="images/*" class="form-control" name="profile_pic">
+                              <input type="text" class="form-control" name="student_id" value="{% for i in student %}{{i.admin.id}}{% endfor %}" hidden>
+                        </div>
+                    </div>
+
+                    {% include "includes/messages.html" %}
+
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>First Name:</label>
+                            <input type="text" class="form-control" name="first_name", value="{% for i in student%} {{i.first_name}} {% endfor %}">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Last Name:</label>
+                            <input type="text" class="form-control" name="last_name", value="{% for i in student%} {{i.last_name}} {% endfor %}">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>username:</label>
+                            <input type="text" class="form-control" name="username", value="{% for i in student%} {{i.admin.username}} {% endfor %}">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="text" class="form-control" name="number", value="{% for i in student %}{{i.number}}{% endfor %}">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                            <label>Gender:</label>
+                                <select class="form-control" name="gender">
+                                    <option>Select Gender</option>
+                                    <option selected="{{i.gender}}" value="Male">Male</option>
+                                    <option selected="{{i.gender}}" value="Femail">Female</option>                                    
+                                    <option selected="{{i.gender}}" value="Other">Other</option>                                    
+                                </select>
+                    </div>
+                    <br>
+                    <div class="col-12 col-sm-6">
+                        <label>Course:</label>
+                            <select class="form-control" name="course_id">
+                                <option>Select Your Course</option>
+                                {% for i in courses %}                                   
+                                <option selected="{{i.course_name}}" value="{{i.id}}">{{i.course_name}}</option> 
+                                {% endfor %}                                  
+                            </select>
+                </div>
+                <br>
+                    
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" class="form-control" name="email", value="{% for i in student %}{{i.admin.email}}{% endfor %}">
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                            <label>Password:</label>
+                            <input type="password" class="form-control" name="password", placeholder="Enter Password if you Change">
+                    </div>
+                </div>
+
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <textarea type="text" class="form-control" name="address">{% for i in student %}{{i.address}}{% endfor %}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Update Student</button>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
